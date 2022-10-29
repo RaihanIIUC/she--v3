@@ -32,6 +32,18 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        switch (Auth::user()->role) {
+            case 'super_admin':
+                return \redirect()->to('/superadmin');
+                break;
+            case 'subscriber':
+                return \redirect()->to('/subscriber');
+                break;
+            default:
+                Auth::guard('web')->logout();
+                $this->redirectTo = '/login';
+                return $this->redirectTo;
+        }
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AdminRegisterController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CurlHandlerController;
 use Illuminate\Support\Facades\Route;
@@ -19,11 +20,20 @@ Route::get('/', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified']);
 
-Route::get('/dashboard', function () {
+Route::get('/subscriber', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/otps',[CurlHandlerController::class,'OtpPage'])->name('otp_page');
 Route::post('/otp',[RegisteredUserController::class,'OtpSubmit'])->name('otp');
+
+Route::get('/superadmin',function(){
+    return view('admin-dashboard');
+})->name('superadmin-dashboard');
+
+
+
+Route::get('/admin-register',[AdminRegisterController::class,'create']);
+
 
 require __DIR__.'/auth.php';
