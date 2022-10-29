@@ -11,6 +11,11 @@ class SubscriberTable extends LivewireDatatable
 {
     public $model = User::class;
 
+    public function builder()
+    {
+        // return $this->model::query();
+        return $this->model::query()->where('role','subscriber')->orderBy('id','DESC');
+    }
     public function columns()
     {
         return [
@@ -25,7 +30,6 @@ class SubscriberTable extends LivewireDatatable
                 ->label('district'),
                 Column::name('reff')
                 ->label('refference'),
-
                 Column::callback(['id','name'], function ($id, $name) {
                     return view('table-actions', ['id' => $id,'name'=> $name]);
                 })->unsortable()
